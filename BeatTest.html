@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<!-- 网页试验台  -->
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>简易点击偏移监测器</title>
+    <style type="text/css">
+        .btn {
+            width: 150px;
+            height: 100px;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%);
+            font-size: 25px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .bd {
+            background-color: #BBBBBB;
+        }
+
+        .info,
+        .lis {
+            text-align: center;
+        }
+    </style>
+    <script>
+        let status = 0;
+        let t1, t2;
+        let count = 0;
+        function spt() {
+            if (status == 0) {
+                let music = new Audio();    //创建一个音频对象
+                let date = new Date();
+                t1 = date.getTime();
+                music.src = 'DONGCIDACI.mp3';    //给定音源路径
+                change();
+                music.play();    //播放声音
+                document.getElementById('ashitaa').innerHTML = '戳我！';
+                status = 1;
+                return;
+            }
+            if (status == 1) {
+                let date2 = new Date();
+                t2 = date2.getTime();
+                count++;
+                document.getElementById('ashitaa').innerHTML = t2 - t1 - 2000 + '毫秒';
+                document.getElementById('record').innerHTML +=
+                    '第 ' + count + ' 次 , ' + (t2 - t1 - 2000) + '毫秒' + '<br>';
+                status = 2;
+                return;
+            }
+            if (status == 2) {
+                document.getElementById('ashitaa').innerHTML = '按下开始';
+                status = 0;
+            }
+        }
+        function change() {
+            document.getElementById('bdid').style.backgroundColor = '#BBFFBB';
+            setTimeout(() => {
+                document.getElementById('bdid').style.backgroundColor = '#BBBBBB';
+                setTimeout(() => {
+                    document.getElementById('bdid').style.backgroundColor = '#BBFFBB';
+                    setTimeout(() => {
+                        document.getElementById('bdid').style.backgroundColor = '#BBBBBB';
+                        setTimeout(() => {
+                            document.getElementById('ashitaa').innerHTML = '按下开始';
+                            status = 0;
+                        }, 1000);
+                    }, 1000);
+                }, 1000);
+            }, 1000);
+        }
+    </script>
+</head>
+
+<body class="bd" id="bdid">
+    <h1>简易点击偏移测试器</h1>
+    <div class="info">
+        <b>操作方法：</b>按下按钮，会播放一段节奏，<br>
+        与此同时背景颜色会随着节奏突变，<br>
+        恰好在第三下突变<b>(即第二次变绿)</b><br>
+        的时候按下按钮，即可测得屏幕点击延迟。<br><br>
+        <b>注意：</b>1.请不要一下子按太多次_(:з」∠)_<br>
+		2.如果没有声音，说明声音还没载好，<br>
+		再耐心等等就好了~（GitHub老慢了）<br><br>
+    </div>
+    <button class="btn" id="ashitaa" onmousedown="spt();">点我开始</button>
+    <br><br>
+    <hr>
+    <div class="lis" id="record">
+        <b>测试记录：</b>
+        <br>
+    </div>
+</body>
+
+</html>

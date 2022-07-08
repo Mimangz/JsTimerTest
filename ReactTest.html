@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<!-- 网页试验台  -->
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>简易反应速度测试器</title>
+    <style type="text/css">
+        .btn {
+            width: 150px;
+            height: 100px;
+            position: relative;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%);
+            font-size: 25px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .bd {
+            background-color: #BBBBBB;
+        }
+
+        .info,
+        .lis {
+            text-align: center;
+        }
+    </style>
+    <script>
+        let status = 0;
+        let cheat = 0;
+        let tmpt = 0;
+        let count = 1;
+        function spt() {
+            if (status == 0) {
+                cheat = 0;
+                document.getElementById('ashitaa').innerHTML = '绿了按我！';
+                status = 1;
+                setTimeout(() => {
+                    if (cheat == 1) return;
+                    else {
+                        let dt = new Date();
+                        tmpt = dt.getTime();
+                        document.getElementById('bdid').style.backgroundColor = '#66ff66';
+                        status = 2;
+                    }
+                }, randi() * 1000);
+                return;
+            }
+            if (status == 1) {
+                document.getElementById('ashitaa').innerHTML = '别提前按！';
+                cheat = 1;
+                status = 3;
+                return;
+            }
+            if (status == 2) {
+                let dt2 = new Date();
+                tmpt = dt2.getTime() - tmpt;
+                document.getElementById('ashitaa').innerHTML = tmpt + '毫秒';
+                document.getElementById('record').innerHTML +=
+                    '第 ' + count + ' 次 , ' + tmpt + '毫秒' + '<br>';
+                count++;
+                status = 3;
+                return;
+            }
+            if (status == 3) {
+                document.getElementById('ashitaa').innerHTML = '按我开始！';
+                document.getElementById('bdid').style.backgroundColor =
+                    '#BBBBBB';
+                status = 0;
+                return;
+            }
+        }
+        function randi() {    //1.5~4秒的随机延时
+            return Math.random() * 2.5 + 1.5;
+        }
+    </script>
+</head>
+
+<body class="bd" id="bdid">
+    <h1>简易反应速度测试器</h1>
+    <div class="info">
+        <b>操作方法：</b>按下按钮，等页面背景<br>
+        变成绿色后尽可能快地再次按下按钮。<br>
+        显示的结果即为你的反应速度。<br><br>
+    </div>
+    <button class="btn" id="ashitaa" onmousedown="spt();">按我开始！</button>
+    <br><br>
+    <hr>
+    <div class="lis" id="record">
+        <b>测试记录：</b>
+        <br>
+    </div>
+</body>
+
+</html>
